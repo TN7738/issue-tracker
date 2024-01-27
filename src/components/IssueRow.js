@@ -1,6 +1,7 @@
 const IssueRow = (props) => {
     const rowStyle = props.rowStyle;
     const issue = props.issue;
+    const setEditIssue = props.setEditIssue;
 
     const created =
         issue.created !== undefined
@@ -10,6 +11,10 @@ const IssueRow = (props) => {
     const due = issue.due ? issue.due.toDateString() : "Date not defined";
 
     // const {rowStyle, issue} = props;
+
+    const handleOnEdit = () => {
+        setEditIssue(issue);
+    };
 
     if (props.issue === undefined) return <h3>IssueRow</h3>;
     return (
@@ -35,13 +40,9 @@ const IssueRow = (props) => {
                     </td>
                 );
             })}
-            {/* <td style={rowStyle}>{issue.id}</td>
-            <td style={rowStyle}>{issue.status}</td>
-            <td style={rowStyle}>{issue.owner}</td>
-            <td style={rowStyle}>{issue.effort}</td>
-            <td style={rowStyle}>{created}</td>
-            <td style={rowStyle}>{due}</td>
-            <td style={rowStyle}>{issue.title}</td> */}
+            <td style={rowStyle}>
+                <button onClick={handleOnEdit}>Edit</button>
+            </td>
         </tr>
     );
 };

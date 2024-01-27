@@ -1,6 +1,8 @@
 import { useState } from "react";
 import IssueTable from "./IssueTable";
 import IssueSearch from "./IssueSearch";
+import IssueAdd from "./IssueAdd";
+import IssueEdit from "./IssueEdit";
 
 const IssueList = () => {
     const issues = [
@@ -44,6 +46,10 @@ const IssueList = () => {
 
     const [issueList, setIssueList] = useState(issues);
 
+    const [editIssue, setEditIssue] = useState(null);
+
+    console.log(editIssue);
+
     const handleSearch = (text) => {
         const filteredIssueList = issues.filter((issue) =>
             issue.owner.toLowerCase().includes(text.toLowerCase())
@@ -54,7 +60,15 @@ const IssueList = () => {
     return (
         <>
             <IssueSearch handleSearch={handleSearch} />
-            <IssueTable issueList={issueList} />
+            <IssueTable issueList={issueList} setEditIssue={setEditIssue} />
+            <IssueAdd setIssueList={setIssueList} />
+            {editIssue !== null ? (
+                <IssueEdit
+                    editIssue={editIssue}
+                    setIssueList={setIssueList}
+                    setEditIssue={setEditIssue}
+                />
+            ) : null}
         </>
     );
 };

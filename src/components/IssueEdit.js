@@ -1,45 +1,35 @@
 import { useState } from "react";
 
-const IssueAdd = ({ setIssueList }) => {
+const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
     const [newIssue, setNewIssue] = useState({
-        status: "",
-        owner: "",
-        effort: 0,
-        created: "",
-        due: "",
-        title: "",
+        id: editIssue.id,
+        status: editIssue.status,
+        owner: editIssue.owner,
+        effort: editIssue.effort,
+        created: editIssue.created,
+        due: editIssue.due,
+        title: editIssue.title,
     });
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
+
         setIssueList((currIssueList) => {
-            return [
-                ...currIssueList,
-                {
-                    id: currIssueList.length + 1,
-                    status: newIssue.status,
-                    owner: newIssue.owner,
-                    effort: newIssue.effort,
-                    created: newIssue.created,
-                    due: newIssue.due,
-                    title: newIssue.title,
-                },
-            ];
+            return currIssueList.map((issue) => {
+                if (issue.id === newIssue.id) {
+                    return newIssue;
+                } else {
+                    return issue;
+                }
+            });
         });
 
-        setNewIssue({
-            status: "",
-            owner: "",
-            effort: 0,
-            created: "",
-            due: "",
-            title: "",
-        });
+        setEditIssue(null);
     };
 
     return (
-        <div>
-            <h3>IssueAdd</h3>
+        <div className="edit-wrapper">
+            <h3>IssueEdit</h3>
             <form onSubmit={(e) => handleOnSubmit(e)}>
                 <div>
                     <label>Status</label>
@@ -145,4 +135,4 @@ const IssueAdd = ({ setIssueList }) => {
     );
 };
 
-export default IssueAdd;
+export default IssueEdit;
