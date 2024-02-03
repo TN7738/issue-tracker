@@ -3,6 +3,7 @@ import IssueTable from "./IssueTable";
 import IssueSearch from "./IssueSearch";
 import IssueAdd from "./IssueAdd";
 import IssueEdit from "./IssueEdit";
+import IssueFilter from "./IssueFilter";
 
 const IssueList = () => {
     const issues = [
@@ -35,7 +36,7 @@ const IssueList = () => {
         },
         {
             id: 4,
-            status: "Assigned",
+            status: "Complete",
             owner: "edger",
             effort: 14,
             created: new Date("2018-08-16"),
@@ -57,10 +58,26 @@ const IssueList = () => {
         setIssueList(filteredIssueList);
     };
 
+    const handleFilter = (status) => {
+        if (status) {
+            const filteredIssueList = issues.filter(
+                (issue) => issue.status === status
+            );
+            setIssueList(filteredIssueList);
+        } else {
+            setIssueList(issues);
+        }
+    };
+
     return (
         <>
             <IssueSearch handleSearch={handleSearch} />
-            <IssueTable issueList={issueList} setEditIssue={setEditIssue} />
+            <IssueFilter handleFilter={handleFilter} />
+            <IssueTable
+                issueList={issueList}
+                setEditIssue={setEditIssue}
+                setIssueList={setIssueList}
+            />
             <IssueAdd setIssueList={setIssueList} />
             {editIssue !== null ? (
                 <IssueEdit

@@ -2,6 +2,7 @@ const IssueRow = (props) => {
     const rowStyle = props.rowStyle;
     const issue = props.issue;
     const setEditIssue = props.setEditIssue;
+    const setIssueList = props.setIssueList;
 
     const created =
         issue.created !== undefined
@@ -14,6 +15,14 @@ const IssueRow = (props) => {
 
     const handleOnEdit = () => {
         setEditIssue(issue);
+    };
+
+    const handleOnDelete = () => {
+        setIssueList((currIssueList) => {
+            return currIssueList.filter(
+                (currIssue) => currIssue.id !== issue.id
+            );
+        });
     };
 
     if (props.issue === undefined) return <h3>IssueRow</h3>;
@@ -42,6 +51,9 @@ const IssueRow = (props) => {
             })}
             <td style={rowStyle}>
                 <button onClick={handleOnEdit}>Edit</button>
+            </td>
+            <td style={rowStyle}>
+                <button onClick={handleOnDelete}>Delete</button>
             </td>
         </tr>
     );

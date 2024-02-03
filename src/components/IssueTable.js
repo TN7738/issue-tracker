@@ -1,7 +1,7 @@
 import { useState } from "react";
 import IssueRow from "./IssueRow";
 
-const IssueTable = ({ issueList, setEditIssue }) => {
+const IssueTable = ({ issueList, setEditIssue, setIssueList }) => {
     const rowStyle = { border: "1px solid silver", padding: 4 };
 
     const issueRows = issueList.map((issue) => (
@@ -10,6 +10,7 @@ const IssueTable = ({ issueList, setEditIssue }) => {
             rowStyle={rowStyle}
             issue={issue}
             setEditIssue={setEditIssue}
+            setIssueList={setIssueList}
         />
     ));
     // [<IssueRow rowStyle={rowStyle} issue={issue} />,
