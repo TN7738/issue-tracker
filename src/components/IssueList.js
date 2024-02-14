@@ -4,6 +4,21 @@ import IssueSearch from "./IssueSearch";
 import IssueAdd from "./IssueAdd";
 import IssueEdit from "./IssueEdit";
 import IssueFilter from "./IssueFilter";
+import { gql, useQuery } from "@apollo/client";
+
+const GET_ISSUES = gql`
+    query getIssues {
+        issues {
+            id
+            status
+            owner
+            effort
+            created
+            due
+            title
+        }
+    }
+`;
 
 const IssueList = () => {
     const issues = [
@@ -45,11 +60,17 @@ const IssueList = () => {
         },
     ];
 
-    const [issueList, setIssueList] = useState(issues);
+    const [issueList, setIssueList] = useState([]);
+
+    const { loading, error, data } = useQuery(GET_ISSUES, {
+        onCompleted: (data) => {
+            setIssueList(data.issues);
+        },
+    });
 
     const [editIssue, setEditIssue] = useState(null);
 
-    console.log(editIssue);
+    // console.log(editIssue);
 
     const handleSearch = (text) => {
         const filteredIssueList = issues.filter((issue) =>
@@ -69,23 +90,31 @@ const IssueList = () => {
         }
     };
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error...</p>;
+
     return (
         <>
-            <IssueSearch handleSearch={handleSearch} />
-            <IssueFilter handleFilter={handleFilter} />
-            <IssueTable
-                issueList={issueList}
-                setEditIssue={setEditIssue}
-                setIssueList={setIssueList}
-            />
-            <IssueAdd setIssueList={setIssueList} />
-            {editIssue !== null ? (
-                <IssueEdit
-                    editIssue={editIssue}
-                    setIssueList={setIssueList}
-                    setEditIssue={setEditIssue}
-                />
-            ) : null}
+            {!loading && !error && issueList.length !== 0 && (
+                <>
+                    {console.log(issueList)}
+                    <IssueSearch handleSearch={handleSearch} />
+                    <IssueFilter handleFilter={handleFilter} />
+                    <IssueTable
+                        issueList={issueList}
+                        setEditIssue={setEditIssue}
+                        setIssueList={setIssueList}
+                    />
+                    <IssueAdd setIssueList={setIssueList} />
+                    {editIssue !== null ? (
+                        <IssueEdit
+                            editIssue={editIssue}
+                            setIssueList={setIssueList}
+                            setEditIssue={setEditIssue}
+                        />
+                    ) : null}
+                </>
+            )}
         </>
     );
 };

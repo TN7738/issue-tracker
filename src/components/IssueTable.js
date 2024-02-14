@@ -20,11 +20,15 @@ const IssueTable = ({ issueList, setEditIssue, setIssueList }) => {
         <table>
             <thead>
                 <tr>
-                    {Object.keys(issueList[0]).map((title) => (
-                        <th key={title} style={rowStyle}>
-                            {title}
-                        </th>
-                    ))}
+                    {Object.keys(issueList[0]).map((title) => {
+                        if (title !== "__typename") {
+                            return (
+                                <th key={title} style={rowStyle}>
+                                    {title}
+                                </th>
+                            );
+                        }
+                    })}
                 </tr>
             </thead>
             <tbody>{issueRows}</tbody>

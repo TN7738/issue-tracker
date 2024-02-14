@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
     const [newIssue, setNewIssue] = useState({
@@ -10,6 +10,8 @@ const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
         due: editIssue.due,
         title: editIssue.title,
     });
+
+    const [todo, setTodo] = useState({});
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
@@ -26,6 +28,26 @@ const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
 
         setEditIssue(null);
     };
+
+    useEffect(() => {
+        const fetchTodo = async () => {
+            const data = await fetch(
+                "https://jsonplaceholder.typicode.com/todos/1"
+            );
+            const json = await data.json();
+            setTodo(json);
+        };
+
+        fetchTodo();
+
+        return () => {
+            console.log("component unmounted");
+        };
+    }, []);
+
+    console.log("componentDidMount");
+
+    console.log(todo);
 
     return (
         <div className="edit-wrapper">

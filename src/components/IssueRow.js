@@ -4,12 +4,12 @@ const IssueRow = (props) => {
     const setEditIssue = props.setEditIssue;
     const setIssueList = props.setIssueList;
 
-    const created =
-        issue.created !== undefined
-            ? issue.created.toDateString()
-            : "Date not defined";
+    // const created =
+    //     issue.created !== undefined
+    //         ? issue.created.toDateString()
+    //         : "Date not defined";
 
-    const due = issue.due ? issue.due.toDateString() : "Date not defined";
+    // const due = issue.due ? issue.due.toDateString() : "Date not defined";
 
     // const {rowStyle, issue} = props;
 
@@ -29,25 +29,27 @@ const IssueRow = (props) => {
     return (
         <tr>
             {Object.entries(issue).map((value, i) => {
-                if (value[0] === "created") {
+                // if (value[0] === "created") {
+                //     return (
+                //         <td key={i} style={rowStyle}>
+                //             {created}
+                //         </td>
+                //     );
+                // }
+                // if (value[0] === "due") {
+                //     return (
+                //         <td key={i} style={rowStyle}>
+                //             {due}
+                //         </td>
+                //     );
+                // }
+                if (value[0] !== "__typename") {
                     return (
                         <td key={i} style={rowStyle}>
-                            {created}
+                            {value[1]}
                         </td>
                     );
                 }
-                if (value[0] === "due") {
-                    return (
-                        <td key={i} style={rowStyle}>
-                            {due}
-                        </td>
-                    );
-                }
-                return (
-                    <td key={i} style={rowStyle}>
-                        {value[1]}
-                    </td>
-                );
             })}
             <td style={rowStyle}>
                 <button onClick={handleOnEdit}>Edit</button>
