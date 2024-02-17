@@ -21,7 +21,7 @@ const IssueTable = ({ issueList, setEditIssue, setIssueList }) => {
             <thead>
                 <tr>
                     {Object.keys(issueList[0]).map((title) => {
-                        if (title !== "__typename") {
+                        if (title !== "__typename" && title !== "id") {
                             return (
                                 <th key={title} style={rowStyle}>
                                     {title}

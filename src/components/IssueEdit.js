@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useMutation } from "@apollo/client";
+import { UPDATE_ISSUE } from "../mutations/issueMutation";
 
 const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
     const [newIssue, setNewIssue] = useState({
@@ -11,11 +13,23 @@ const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
         title: editIssue.title,
     });
 
+    const [updateIssue] = useMutation(UPDATE_ISSUE, {
+        variables: {
+            id: newIssue.id,
+            status: newIssue.status,
+            owner: newIssue.owner,
+            effort: parseInt(newIssue.effort),
+            created: newIssue.created,
+            due: newIssue.due,
+            title: newIssue.title,
+        },
+    });
+
     const [todo, setTodo] = useState({});
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
-
+        updateIssue();
         setIssueList((currIssueList) => {
             return currIssueList.map((issue) => {
                 if (issue.id === newIssue.id) {
@@ -102,16 +116,12 @@ const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
                     <label>Created</label>
                     <input
                         type="date"
-                        value={
-                            newIssue.created
-                                ? newIssue.created.toISOString().split("T")[0]
-                                : ""
-                        }
+                        value={newIssue.created}
                         onChange={(e) =>
                             setNewIssue((currNewIssue) => {
                                 return {
                                     ...currNewIssue,
-                                    created: new Date(e.target.value),
+                                    created: e.target.value,
                                 };
                             })
                         }
@@ -121,16 +131,12 @@ const IssueEdit = ({ editIssue, setIssueList, setEditIssue }) => {
                     <label>Due</label>
                     <input
                         type="date"
-                        value={
-                            newIssue.due
-                                ? newIssue.due.toISOString().split("T")[0]
-                                : ""
-                        }
+                        value={newIssue.due}
                         onChange={(e) =>
                             setNewIssue((currNewIssue) => {
                                 return {
                                     ...currNewIssue,
-                                    due: new Date(e.target.value),
+                                    due: e.target.value,
                                 };
                             })
                         }

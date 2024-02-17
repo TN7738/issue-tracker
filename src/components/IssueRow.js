@@ -1,8 +1,15 @@
+import { useMutation } from "@apollo/client";
+import { DELETE_ISSUE } from "../mutations/issueMutation";
+
 const IssueRow = (props) => {
     const rowStyle = props.rowStyle;
     const issue = props.issue;
     const setEditIssue = props.setEditIssue;
     const setIssueList = props.setIssueList;
+
+    const [deletIssue] = useMutation(DELETE_ISSUE, {
+        variables: { id: issue.id },
+    });
 
     // const created =
     //     issue.created !== undefined
@@ -18,6 +25,7 @@ const IssueRow = (props) => {
     };
 
     const handleOnDelete = () => {
+        deletIssue();
         setIssueList((currIssueList) => {
             return currIssueList.filter(
                 (currIssue) => currIssue.id !== issue.id
@@ -43,7 +51,7 @@ const IssueRow = (props) => {
                 //         </td>
                 //     );
                 // }
-                if (value[0] !== "__typename") {
+                if (value[0] !== "__typename" && value[0] !== "id") {
                     return (
                         <td key={i} style={rowStyle}>
                             {value[1]}

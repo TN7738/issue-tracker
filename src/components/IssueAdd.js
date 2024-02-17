@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_ISSUE } from "../mutations/issueMutation";
 
 const IssueAdd = ({ setIssueList }) => {
     const [newIssue, setNewIssue] = useState({
+        id: "",
         status: "",
         owner: "",
         effort: 0,
@@ -10,13 +13,33 @@ const IssueAdd = ({ setIssueList }) => {
         title: "",
     });
 
+    const [addIssue] = useMutation(ADD_ISSUE, {
+        variables: {
+            status: newIssue.status,
+            owner: newIssue.owner,
+            effort: parseInt(newIssue.effort),
+            created: newIssue.created,
+            due: newIssue.due,
+            title: newIssue.title,
+        },
+        onCompleted: (newValue) => {
+            setNewIssue((currIssueList) => {
+                return {
+                    ...currIssueList,
+                    id: newValue.addIssue.id,
+                };
+            });
+        },
+    });
+
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
+        addIssue();
         setIssueList((currIssueList) => {
             return [
                 ...currIssueList,
                 {
-                    id: currIssueList.length + 1,
+                    id: newIssue.id,
                     status: newIssue.status,
                     owner: newIssue.owner,
                     effort: newIssue.effort,
@@ -90,16 +113,12 @@ const IssueAdd = ({ setIssueList }) => {
                     <label>Created</label>
                     <input
                         type="date"
-                        value={
-                            newIssue.created
-                                ? newIssue.created.toISOString().split("T")[0]
-                                : ""
-                        }
+                        value={newIssue.created}
                         onChange={(e) =>
                             setNewIssue((currNewIssue) => {
                                 return {
                                     ...currNewIssue,
-                                    created: new Date(e.target.value),
+                                    created: e.target.value,
                                 };
                             })
                         }
@@ -109,16 +128,12 @@ const IssueAdd = ({ setIssueList }) => {
                     <label>Due</label>
                     <input
                         type="date"
-                        value={
-                            newIssue.due
-                                ? newIssue.due.toISOString().split("T")[0]
-                                : ""
-                        }
+                        value={newIssue.due}
                         onChange={(e) =>
                             setNewIssue((currNewIssue) => {
                                 return {
                                     ...currNewIssue,
-                                    due: new Date(e.target.value),
+                                    due: e.target.value,
                                 };
                             })
                         }

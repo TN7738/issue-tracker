@@ -1,0 +1,73 @@
+import { gql } from "@apollo/client";
+
+export const DELETE_ISSUE = gql`
+    mutation deleteIssue($id: ID!) {
+        deleteIssue(id: $id) {
+            id
+            status
+            owner
+            effort
+            created
+            due
+            title
+        }
+    }
+`;
+
+export const ADD_ISSUE = gql`
+    mutation addIssue(
+        $status: String!
+        $owner: String!
+        $effort: Int!
+        $created: Date!
+        $due: Date
+        $title: String!
+    ) {
+        addIssue(
+            status: $status
+            owner: $owner
+            effort: $effort
+            created: $created
+            due: $due
+            title: $title
+        ) {
+            id
+            status
+            owner
+            effort
+            created
+            due
+            title
+        }
+    }
+`;
+
+export const UPDATE_ISSUE = gql`
+    mutation updateIssue(
+        $id: ID!
+        $status: String
+        $owner: String
+        $effort: Int
+        $created: Date
+        $due: Date
+        $title: String
+    ) {
+        updateIssue(
+            id: $id
+            status: $status
+            owner: $owner
+            effort: $effort
+            created: $created
+            due: $due
+            title: $title
+        ) {
+            id
+            status
+            owner
+            effort
+            created
+            due
+            title
+        }
+    }
+`;
