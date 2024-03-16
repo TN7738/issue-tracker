@@ -4,6 +4,7 @@ import IssueList from "./components/IssueList";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./components/NotFound";
+import IssuePage from "./components/IssuePage";
 
 const client = new ApolloClient({
     uri: "http://localhost:5000/graphql",
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     {
         path: "/issuelist",
         element: <IssueList />,
+    },
+    {
+        path: "/issuelist/:issueid",
+        element: <IssuePage />,
     },
 ]);
 

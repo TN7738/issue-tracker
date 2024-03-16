@@ -50,3 +50,16 @@
     align-items: center;
     color: #fff;
 }
+
+.issue-table-wrapper table,
+.issue-table-wrapper th,
+.issue-table-wrapper td {
+    border: solid 1px #000;
+    border-collapse: collapse;
+}
+
+.issue-table-wrapper th,
+.issue-table-wrapper td {
+    padding: 5px;
+    text-align: left;
+}

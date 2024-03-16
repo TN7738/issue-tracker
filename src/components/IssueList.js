@@ -61,10 +61,12 @@ const IssueList = () => {
     ];
 
     const [issueList, setIssueList] = useState([]);
+    const [copyIssueList, setCopyIssueList] = useState([]);
 
     const { loading, error, data } = useQuery(GET_ISSUES, {
         onCompleted: (data) => {
             setIssueList(data.issues);
+            setCopyIssueList(data.issues);
         },
     });
 
@@ -73,7 +75,7 @@ const IssueList = () => {
     // console.log(editIssue);
 
     const handleSearch = (text) => {
-        const filteredIssueList = issues.filter((issue) =>
+        const filteredIssueList = copyIssueList.filter((issue) =>
             issue.owner.toLowerCase().includes(text.toLowerCase())
         );
         setIssueList(filteredIssueList);
@@ -81,12 +83,12 @@ const IssueList = () => {
 
     const handleFilter = (status) => {
         if (status) {
-            const filteredIssueList = issues.filter(
-                (issue) => issue.status === status
+            const filteredIssueList = copyIssueList.filter(
+                (issue) => issue.status.toLowerCase() === status.toLowerCase()
             );
             setIssueList(filteredIssueList);
         } else {
-            setIssueList(issues);
+            setIssueList(copyIssueList);
         }
     };
 

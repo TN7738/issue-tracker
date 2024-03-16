@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_ISSUE } from "../mutations/issueMutation";
+import { Link } from "react-router-dom";
 
 const IssueRow = (props) => {
     const rowStyle = props.rowStyle;
@@ -64,6 +65,9 @@ const IssueRow = (props) => {
             </td>
             <td style={rowStyle}>
                 <button onClick={handleOnDelete}>Delete</button>
+            </td>
+            <td style={rowStyle}>
+                <Link to={`/issuelist/${issue.id}`}>Details</Link>
             </td>
         </tr>
     );

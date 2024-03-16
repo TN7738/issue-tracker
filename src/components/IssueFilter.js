@@ -9,7 +9,7 @@ const IssueFilter = ({ handleFilter }) => {
                 <option value=""></option>
                 <option value="New">New</option>
                 <option value="Assigned">Assigned</option>
-                <option value="Complete">Complete</option>
+                <option value="Completed">Completed</option>
             </select>
         </>
     );
