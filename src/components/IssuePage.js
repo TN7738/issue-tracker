@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 
-const GET_ISSUE = gql`
+export const GET_ISSUE = gql`
     query getIssue($id: ID!) {
         issue(id: $id) {
             id

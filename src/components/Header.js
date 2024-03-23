@@ -11,14 +11,18 @@ const Header = () => {
             link: "/issuelist",
             text: "View Issues",
         },
+        {
+            link: "/issueadd",
+            text: "Add Issue",
+        },
     ];
 
     return (
         <header className="header-wrap">
             <ul>
-                {headerBtns.map((headeBtn) => (
-                    <li key={headerBtns.link}>
-                        <Link to={headeBtn.link}>{headeBtn.text}</Link>
+                {headerBtns.map((headerBtn) => (
+                    <li key={headerBtn.link}>
+                        <Link to={headerBtn.link}>{headerBtn.text}</Link>
                     </li>
                 ))}
             </ul>

@@ -6,10 +6,24 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import IssuePage from "./components/IssuePage";
 import Body from "./components/Body";
+import IssueAdd from "./components/IssueAdd";
+import IssueEdit from "./components/IssueEdit";
+
+const cache = new InMemoryCache({
+    typePolicies: {
+        Query: {
+            fields: {
+                issues: {
+                    merge: (existing, incoming) => incoming,
+                },
+            },
+        },
+    },
+});
 
 const client = new ApolloClient({
     uri: "http://localhost:5000/graphql",
-    cache: new InMemoryCache(),
+    cache,
 });
 
 const router = createBrowserRouter([
@@ -28,6 +42,14 @@ const router = createBrowserRouter([
             {
                 path: "/issuelist/:issueid",
                 element: <IssuePage />,
+            },
+            {
+                path: "/issueadd",
+                element: <IssueAdd />,
+            },
+            {
+                path: "/issueedit/:issueid",
+                element: <IssueEdit />,
             },
         ],
         errorElement: <NotFound />,

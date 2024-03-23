@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_ISSUE } from "../mutations/issueMutation";
+import { GET_ISSUES } from "./IssueList";
+import { useNavigate } from "react-router-dom";
 
-const IssueAdd = ({ setIssueList }) => {
+const IssueAdd = () => {
+    const navigate = useNavigate();
+
     const [newIssue, setNewIssue] = useState({
         id: "",
         status: "",
@@ -22,12 +26,21 @@ const IssueAdd = ({ setIssueList }) => {
             due: newIssue.due,
             title: newIssue.title,
         },
-        onCompleted: (newValue) => {
-            setNewIssue((currIssueList) => {
-                return {
-                    ...currIssueList,
-                    id: newValue.addIssue.id,
-                };
+        update: (cache, { data: { addIssue } }) => {
+            const { issues } = cache.readQuery({
+                query: GET_ISSUES,
+                variables: {
+                    status: newIssue.status,
+                    owner: newIssue.owner,
+                    effort: parseInt(newIssue.effort),
+                    created: newIssue.created,
+                    due: newIssue.due,
+                    title: newIssue.title,
+                },
+            });
+            cache.writeQuery({
+                query: GET_ISSUES,
+                data: { issues: issues.concat([addIssue]) },
             });
         },
     });
@@ -35,20 +48,21 @@ const IssueAdd = ({ setIssueList }) => {
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
         addIssue();
-        setIssueList((currIssueList) => {
-            return [
-                ...currIssueList,
-                {
-                    id: newIssue.id,
-                    status: newIssue.status,
-                    owner: newIssue.owner,
-                    effort: newIssue.effort,
-                    created: newIssue.created,
-                    due: newIssue.due,
-                    title: newIssue.title,
-                },
-            ];
-        });
+        navigate("/issuelist");
+        // setIssueList((currIssueList) => {
+        //     return [
+        //         ...currIssueList,
+        //         {
+        //             id: newIssue.id,
+        //             status: newIssue.status,
+        //             owner: newIssue.owner,
+        //             effort: newIssue.effort,
+        //             created: newIssue.created,
+        //             due: newIssue.due,
+        //             title: newIssue.title,
+        //         },
+        //     ];
+        // });
 
         setNewIssue({
             status: "",

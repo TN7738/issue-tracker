@@ -6,7 +6,7 @@ import IssueEdit from "./IssueEdit";
 import IssueFilter from "./IssueFilter";
 import { gql, useQuery } from "@apollo/client";
 
-const GET_ISSUES = gql`
+export const GET_ISSUES = gql`
     query getIssues {
         issues {
             id
@@ -21,45 +21,6 @@ const GET_ISSUES = gql`
 `;
 
 const IssueList = () => {
-    const issues = [
-        {
-            id: 1,
-            status: "New",
-            owner: "Ravan",
-            effort: 5,
-            created: new Date("2018-08-15"),
-            due: undefined,
-            title: "Error in console when clicking Add",
-        },
-        {
-            id: 2,
-            status: "Assigned",
-            owner: "Eddie",
-            effort: 14,
-            created: new Date("2018-08-16"),
-            due: new Date("2018-08-30"),
-            title: "Missing bottom border on panel",
-        },
-        {
-            id: 3,
-            status: "Assigned",
-            owner: "Hally",
-            effort: 14,
-            created: new Date("2018-08-16"),
-            due: new Date("2018-08-30"),
-            title: "Missing bottom border on panel",
-        },
-        {
-            id: 4,
-            status: "Complete",
-            owner: "edger",
-            effort: 14,
-            created: new Date("2018-08-16"),
-            due: new Date("2018-08-30"),
-            title: "Missing bottom border on panel",
-        },
-    ];
-
     const [issueList, setIssueList] = useState([]);
     const [copyIssueList, setCopyIssueList] = useState([]);
 
@@ -71,8 +32,6 @@ const IssueList = () => {
     });
 
     const [editIssue, setEditIssue] = useState(null);
-
-    // console.log(editIssue);
 
     const handleSearch = (text) => {
         const filteredIssueList = copyIssueList.filter((issue) =>
@@ -97,24 +56,19 @@ const IssueList = () => {
 
     return (
         <>
-            {!loading && !error && issueList.length !== 0 && (
+            {!loading && !error && (
                 <>
-                    {console.log(issueList)}
                     <IssueSearch handleSearch={handleSearch} />
                     <IssueFilter handleFilter={handleFilter} />
-                    <IssueTable
-                        issueList={issueList}
-                        setEditIssue={setEditIssue}
-                        setIssueList={setIssueList}
-                    />
-                    <IssueAdd setIssueList={setIssueList} />
-                    {editIssue !== null ? (
+                    <IssueTable issueList={data.issues} />
+                    {/* <IssueAdd setIssueList={setIssueList} /> */}
+                    {/* {editIssue !== null ? (
                         <IssueEdit
                             editIssue={editIssue}
                             setIssueList={setIssueList}
                             setEditIssue={setEditIssue}
                         />
-                    ) : null}
+                    ) : null} */}
                 </>
             )}
         </>

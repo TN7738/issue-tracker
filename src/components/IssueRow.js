@@ -1,15 +1,25 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_ISSUE } from "../mutations/issueMutation";
 import { Link } from "react-router-dom";
+import { GET_ISSUES } from "./IssueList";
 
 const IssueRow = (props) => {
     const rowStyle = props.rowStyle;
     const issue = props.issue;
-    const setEditIssue = props.setEditIssue;
-    const setIssueList = props.setIssueList;
 
     const [deletIssue] = useMutation(DELETE_ISSUE, {
         variables: { id: issue.id },
+        update: (cache, { data: { deleteIssue } }) => {
+            const { issues } = cache.readQuery({ query: GET_ISSUES });
+            cache.writeQuery({
+                query: GET_ISSUES,
+                data: {
+                    issues: issues.filter(
+                        (issue) => issue.id !== deleteIssue.id
+                    ),
+                },
+            });
+        },
     });
 
     // const created =
@@ -22,16 +32,16 @@ const IssueRow = (props) => {
     // const {rowStyle, issue} = props;
 
     const handleOnEdit = () => {
-        setEditIssue(issue);
+        // setEditIssue(issue);
     };
 
     const handleOnDelete = () => {
         deletIssue();
-        setIssueList((currIssueList) => {
-            return currIssueList.filter(
-                (currIssue) => currIssue.id !== issue.id
-            );
-        });
+        // setIssueList((currIssueList) => {
+        //     return currIssueList.filter(
+        //         (currIssue) => currIssue.id !== issue.id
+        //     );
+        // });
     };
 
     if (props.issue === undefined) return <h3>IssueRow</h3>;
@@ -61,7 +71,7 @@ const IssueRow = (props) => {
                 }
             })}
             <td style={rowStyle}>
-                <button onClick={handleOnEdit}>Edit</button>
+                <Link to={`/issueedit/${issue.id}`}>Edit</Link>
             </td>
             <td style={rowStyle}>
                 <button onClick={handleOnDelete}>Delete</button>
