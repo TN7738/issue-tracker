@@ -8,6 +8,7 @@ import IssuePage from "./components/IssuePage";
 import Body from "./components/Body";
 import IssueAdd from "./components/IssueAdd";
 import IssueEdit from "./components/IssueEdit";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const cache = new InMemoryCache({
     typePolicies: {

@@ -71,3 +71,17 @@ export const UPDATE_ISSUE = gql`
         }
     }
 `;
+
+export const FILTERED_ISSUES = gql`
+    mutation filterIssues($status: String, $owner: String) {
+        filterIssues(status: $status, owner: $owner) {
+            id
+            status
+            owner
+            effort
+            created
+            due
+            title
+        }
+    }
+`;

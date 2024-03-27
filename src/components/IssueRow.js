@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { DELETE_ISSUE } from "../mutations/issueMutation";
 import { Link } from "react-router-dom";
 import { GET_ISSUES } from "./IssueList";
+import { Button } from "react-bootstrap";
 
 const IssueRow = (props) => {
     const rowStyle = props.rowStyle;
@@ -74,7 +75,10 @@ const IssueRow = (props) => {
                 <Link to={`/issueedit/${issue.id}`}>Edit</Link>
             </td>
             <td style={rowStyle}>
-                <button onClick={handleOnDelete}>Delete</button>
+                <Button variant="danger" onClick={handleOnDelete}>
+                    Delete
+                </Button>
+                {/* <button onClick={handleOnDelete}>Delete</button> */}
             </td>
             <td style={rowStyle}>
                 <Link to={`/issuelist/${issue.id}`}>Details</Link>
